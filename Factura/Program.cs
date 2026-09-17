@@ -18,19 +18,12 @@ class Program
 
         if (importBaseConsola != null)
         {
-            
-            while (!decimal.TryParse(importBaseConsola, out importBase))
+            while (!decimal.TryParse(importBaseConsola, out importBase) || importBase < 1 || importBase > 10000)
             {
-                Console.WriteLine("L'import ha de ser un número decimal");
+                Console.WriteLine("L'import ha de ser un número decimal entre 1 i 10000");
                 Console.Write("Introdueix la base: ");
                 importBaseConsola = Console.ReadLine();
             }
-
-            if (importBase < 0 || importBase > 10000)
-            {
-                Console.WriteLine("L'import ha de ser entre 1 i 10000");
-                return;
-            }            
         }
         else
         {
