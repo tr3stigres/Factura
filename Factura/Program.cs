@@ -19,10 +19,11 @@ class Program
         if (importBaseConsola != null)
         {
             
-            if (!decimal.TryParse(importBaseConsola, out importBase))
+            while (!decimal.TryParse(importBaseConsola, out importBase))
             {
                 Console.WriteLine("L'import ha de ser un número decimal");
-                return;
+                Console.Write("Introdueix la base: ");
+                importBaseConsola = Console.ReadLine();
             }
 
             if (importBase < 0 || importBase > 10000)
@@ -44,6 +45,18 @@ class Program
 
         if (tipusIVAConsola != null)
         {
+
+            tipusIVAConsola = tipusIVAConsola.Trim().ToUpper();
+            while (tipusIVAConsola != "GENERAL" && tipusIVAConsola != "REDUCIDO" && tipusIVAConsola != "EXENTO")
+            {
+                Console.WriteLine("S'ha d'aplicar un dels tres tipus: GENERAL, REDUCIDO o EXENTO");
+                Console.Write("Quin tipus d'IVA apliquem (GENERAL, REDUCIDO, EXENTO): ");
+                tipusIVAConsola = Console.ReadLine();
+                if (tipusIVAConsola != null)
+                    tipusIVAConsola = tipusIVAConsola.Trim().ToUpper();
+            }
+
+
             percentatgeIVA = tipusIVAConsola.Trim().ToUpper() switch
             {
                 "GENERAL" => 21,
@@ -52,11 +65,7 @@ class Program
                 _ => null
             };
 
-            if (percentatgeIVA == null)
-            {
-                Console.WriteLine("S'ha d'aplicar un dels tres tipus: GENERAL, REDUCIDO o EXENTO");
-                return;
-            }
+            
         }
         else
         {
@@ -75,7 +84,7 @@ class Program
         //mostrar cuota
         decimal cuotaFinal = Math.Round(importBase + cuotaRedondeig, 2, MidpointRounding.AwayFromZero);
         var cultura = CultureInfo.GetCultureInfo("es-ES");
-        Console.WriteLine($"El preu a final es de : {cuotaFinal}", cultura);
+        Console.WriteLine($"El preu a final es de : {cuotaFinal:F2}", cultura);
 
     }
 }
