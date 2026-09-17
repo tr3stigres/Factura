@@ -66,18 +66,14 @@ class Program
 
 
         //càlcul cuota
-        decimal cuotaBase = importBase + ((importBase * (decimal)percentatgeIVA) / 100);
+        decimal cuotaBase = (importBase * (decimal)percentatgeIVA) / 100;
 
-        //redondeig
-        decimal cuota = Math.Round(cuotaBase, 2, MidpointRounding.AwayFromZero);
+        //redondeig a dos decimals
+        decimal cuotaRedondeig = Math.Round(cuotaBase, 2, MidpointRounding.AwayFromZero);
 
-        //mostrar preu
-        Console.WriteLine($"El preu a final es de : {cuota}");
-
+        //mostrar cuota
+        decimal cuotaFinal = Math.Round(importBase + cuotaRedondeig, 2, MidpointRounding.AwayFromZero);
+        Console.WriteLine($"El preu a final es de : {cuotaFinal}");
 
     }
-
-
-
 }
-
