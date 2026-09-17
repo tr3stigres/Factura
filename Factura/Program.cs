@@ -1,4 +1,5 @@
-﻿using static System.Net.Mime.MediaTypeNames;
+﻿using System.Globalization;
+using static System.Net.Mime.MediaTypeNames;
 
 class Program
 {
@@ -9,8 +10,7 @@ class Program
     
     static void Iniciar()
     {
-
-
+        
         //base
         Console.Write("Introdueix la base: ");
         string? importBaseConsola = Console.ReadLine();
@@ -18,17 +18,18 @@ class Program
 
         if (importBaseConsola != null)
         {
+            
             if (!decimal.TryParse(importBaseConsola, out importBase))
             {
                 Console.WriteLine("L'import ha de ser un número decimal");
                 return;
             }
 
-            if (importBase < 1 || importBase >= 10000)
+            if (importBase < 0 || importBase > 10000)
             {
                 Console.WriteLine("L'import ha de ser entre 1 i 10000");
                 return;
-            }
+            }            
         }
         else
         {
@@ -73,7 +74,8 @@ class Program
 
         //mostrar cuota
         decimal cuotaFinal = Math.Round(importBase + cuotaRedondeig, 2, MidpointRounding.AwayFromZero);
-        Console.WriteLine($"El preu a final es de : {cuotaFinal}");
+        var cultura = CultureInfo.GetCultureInfo("es-ES");
+        Console.WriteLine($"El preu a final es de : {cuotaFinal}", cultura);
 
     }
 }
