@@ -26,10 +26,7 @@
                 Console.WriteLine("L'import ha de ser un número decimal entre 1 i 10000");
                 continue;
             }
-            else
-            {
-                break;
-            }
+            break;
         } while (true);
 
 
@@ -52,10 +49,7 @@
                 Console.WriteLine("S'ha d'aplicar un dels tres tipus: GENERAL, REDUCIDO o EXENTO");
                 continue;
             }
-            else
-            {
-                break;
-            }
+            break;
         } while (true);
 
         return tipusIVA;
