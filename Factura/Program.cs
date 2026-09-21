@@ -1,74 +1,84 @@
-﻿using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
-
-class Program
+﻿class Program
 {
     public static void Main()
     {
-        Iniciar();
+        decimal importBase = DemanarBase();
+        string tipusIVA = DemanarIVA();
+        decimal cuotaFinal = CalculCuota(importBase, tipusIVA);
+        MostrarResultat(cuotaFinal);
     }
     
-    static void Iniciar()
+    static decimal DemanarBase()
     {
-
-        //base
-
-        bool repetirPregunta = true;
         decimal importBase = 0;
-        while (repetirPregunta)
+    
+        do
         {
             Console.Write("Introdueix la base: ");
             string? importBaseConsola = Console.ReadLine();
             if (!decimal.TryParse(importBaseConsola, out importBase))
             {
                 Console.WriteLine("L'import ha de ser un número decimal");
-            } else if (importBase < 1 || importBase > 10000)
+                continue;
+            }
+            else if (importBase < 1 || importBase > 10000)
             {
                 Console.WriteLine("L'import ha de ser un número decimal entre 1 i 10000");
-            } else
-            {
-                repetirPregunta = false;
+                continue;
             }
-        }
+            else
+            {
+                break;
+            }
+        } while (true);
 
-        //IVA
-        repetirPregunta = true;
+
+        return importBase;
+
+    }
+
+    static string DemanarIVA()
+    {
+
         string tipusIVA = "";
-        int? percentatgeIVA = null;
-        while (repetirPregunta)
+        do
         {
             Console.Write("Quin tipus d'IVA apliquem (GENERAL, REDUCIDO, EXENTO): ");
             string? tipusIVAConsola = Console.ReadLine();
-            if (tipusIVAConsola!= null)
+            if (tipusIVAConsola != null)
                 tipusIVA = tipusIVAConsola.Trim().ToUpper();
             if (tipusIVA != "GENERAL" && tipusIVA != "REDUCIDO" && tipusIVA != "EXENTO")
             {
                 Console.WriteLine("S'ha d'aplicar un dels tres tipus: GENERAL, REDUCIDO o EXENTO");
+                continue;
             }
             else
             {
-                repetirPregunta = false;
+                break;
             }
-        }
+        } while (true);
 
-        percentatgeIVA = tipusIVA switch
+        return tipusIVA;
+
+    }
+
+    static decimal CalculCuota(decimal importBase, string tipusIVA)
+    {
+        int? percentatgeIVA = tipusIVA switch
         {
             "GENERAL" => 21,
             "REDUCIDO" => 10,
             "EXENTO" => 0,
             _ => null
         };
-
-        //càlcul cuota
         decimal cuotaBase = (importBase * (decimal)percentatgeIVA) / 100;
-
-        //redondeig a dos decimals
         decimal cuotaRedondeig = Math.Round(cuotaBase, 2, MidpointRounding.AwayFromZero);
-
-        //mostrar cuota
-        decimal cuotaFinal = Math.Round(importBase + cuotaRedondeig, 2, MidpointRounding.AwayFromZero);
-        var cultura = CultureInfo.GetCultureInfo("es-ES");
-        Console.WriteLine($"El preu a final es de : {cuotaFinal:F2}", cultura);
-
+        return Math.Round(importBase + cuotaRedondeig, 2, MidpointRounding.AwayFromZero);
     }
+
+    static void MostrarResultat(decimal cuotaFinal)
+    {
+        Console.WriteLine($"El preu a final es de : {cuotaFinal:F2}");
+    }
+
 }
